@@ -128,7 +128,7 @@ const AIChatBox = () => {
             Voornaam: ${data.mockPersonData.voornaam}\nAchternaam: ${data.mockPersonData.achternaam}\n\nPersoneelnummer: ${data.mockPersonData.personeelnr}\n\nDatum uit dienst: ${data.mockPersonData.datumUitDienst}\n\nParttime/fulltime: ${data.mockPersonData.werktijd}\n\nUren: ${data.mockPersonData.uren}`,
           },
         ]);
-        setStep(4); // Proceed to editing
+        setStep(4);
       }
 
       // Handle confirmation for "verwijderen"
