@@ -19,7 +19,7 @@ const AIChatBox = () => {
     mockPersonData: {
       voornaam: 'Jan',
       achternaam: 'Jansen',
-      personeelnr: '19076882',
+      personeelnr: '21080887',
       datumUitDienst: '15-05-2022',
       werktijd: 'fulltime',
       uren: '40',
@@ -32,21 +32,21 @@ const AIChatBox = () => {
     setConversation((prev) => [...prev, { from: 'user', message: value }]);
 
     if (step === 1) {
-      if (value.toLowerCase().includes('gegevens aanpassen')) {
+      if (value.toLowerCase().includes('aanpassen')) {
         setConversation((prev) => [
           ...prev,
           { from: 'bot', message: 'Welke gegevens wilt u aanpassen?' },
         ]);
         setData((prev) => ({ ...prev, gegevens: 'aanpassen' }));
         setStep(2);
-      } else if (value.toLowerCase().includes('gegevens opzoeken')) {
+      } else if (value.toLowerCase().includes('opzoeken')) {
         setConversation((prev) => [
           ...prev,
-          { from: 'bot', message: 'Welke gegevens wilt u opzoeken? Voer het ID of naam in.' },
+          { from: 'bot', message: 'Welke gegevens wilt u opzoeken? Voer het ID in.' },
         ]);
         setData((prev) => ({ ...prev, gegevens: 'opzoeken' }));
         setStep(2);
-      } else if (value.toLowerCase().includes('gegevens verwijderen')) {
+      } else if (value.toLowerCase().includes('verwijderen')) {
         setConversation((prev) => [
           ...prev,
           { from: 'bot', message: 'Welke gegevens wilt u verwijderen? Voer het ID in.' },
@@ -124,8 +124,8 @@ const AIChatBox = () => {
           ...prev,
           {
             from: 'bot',
-            message: `Hieronder zie je de gegevens van persoon met ID nummer ${value}. Wat wilt u aanpassen?\n
-            Voornaam: ${data.mockPersonData.voornaam}\nAchternaam: ${data.mockPersonData.achternaam}\nPersoneelnummer: ${data.mockPersonData.personeelnr}\nDatum uit dienst: ${data.mockPersonData.datumUitDienst}\nParttime/fulltime: ${data.mockPersonData.werktijd}\nUren: ${data.mockPersonData.uren}`,
+            message: `Hieronder zie je de gegevens van persoon met ID nummer ${value}. Wat wilt u aanpassen?\n\n
+            Voornaam: ${data.mockPersonData.voornaam}\nAchternaam: ${data.mockPersonData.achternaam}\n\nPersoneelnummer: ${data.mockPersonData.personeelnr}\n\nDatum uit dienst: ${data.mockPersonData.datumUitDienst}\n\nParttime/fulltime: ${data.mockPersonData.werktijd}\n\nUren: ${data.mockPersonData.uren}`,
           },
         ]);
         setStep(4); // Proceed to editing
