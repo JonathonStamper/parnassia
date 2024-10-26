@@ -26,7 +26,8 @@ const AIChatBox = () => {
     },
   });
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault()
     if (!value.trim()) return;
 
     setConversation((prev) => [...prev, { from: 'user', message: value }]);
@@ -158,6 +159,8 @@ const AIChatBox = () => {
   const handleChange = (e) => setValue(e.target.value);
   const [isChatOpen, setIsChatOpen] = useState(true);
 
+  
+
   return (
     <>
     {isChatOpen ? (
@@ -183,7 +186,7 @@ const AIChatBox = () => {
       </div>
 
       {/*--------------- Input field and send button ----------------*/}
-      <div className="flex flex-row items-center px-4 pb-4 mt-auto">
+      <form onChange={(e) => {e.preventDefault()}} className="flex flex-row items-center px-4 pb-4 mt-auto">
         <input
           type="text"
           value={value}
@@ -191,10 +194,12 @@ const AIChatBox = () => {
           className="flex-grow p-2 border border-gray-300 rounded-md"
           placeholder="Type hier..."
         />
-        <button onClick={handleSubmit} className="ml-2">
+
+        <button
+        onClick={(e) => handleSubmit(e)} className="ml-2">
           <SVGSendArrow />
         </button>
-      </div>
+      </form>
     </div>
     ) :
     (
