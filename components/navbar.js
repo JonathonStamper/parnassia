@@ -2,6 +2,9 @@ import React from 'react'
 import Screens from './Navlink'
 import Navlink from './Navlink'
 import SVGQuestionmark from '../icons/Questionmark'
+import SVGFolder from '@/icons/Folder'
+import SVGClock from '@/icons/Clock'
+
 export default function Navbar({children}) {
 
     const linkList = [
@@ -12,12 +15,17 @@ export default function Navbar({children}) {
 
         {link: 'personeel',
             linkName: 'Personeel',
-            children: <HomeIcon/>
+            children: <SVGFolder/>
            },
 
         {link: 'chatbot',
             linkName: 'Chatbot',
             children: <HomeIcon/>
+        },
+        
+        {link: 'recent',
+            linkName: 'Recent',
+            children: <SVGClock/>
         },
 
         {link: 'faq',

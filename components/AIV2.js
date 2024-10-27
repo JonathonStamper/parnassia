@@ -4,38 +4,40 @@ import Image from 'next/image'
 import SVGSendArrow from '../icons/SendArrow'
 import { useEffect, useState } from 'react';
 import SVGCloseX from '../icons/CloseX';
+import SVGCheckmark from '@/icons/Checkmark';
 import chatbotIcon from '../public/images/chatbotIcon.png';
+import Table from './Table';
 
-const AIChatBoxV2 = () => {
+const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpassen, dataVerwijderen, setDataVerwijderen }) => {
 
     const [conversation, setConversation] = useState([
         // { from: 'bot', message: '</br> Hallo! Ik ben Bob, uw digitale hulp voor het rekenmodel. Hoe kan ik u helpen? ' },
 
     ]);
     const [value, setValue] = useState('');
-    const [step, setStep] = useState(1);
-    const [data, setData] = useState({
-        gegevens: '',
-        field: '',
-        idNumber: '',
-        mockPersonData: {
-            voornaam: 'Jan',
-            achternaam: 'Jansen',
-            personeelnr: '21080887',
-            datumUitDienst: '15-05-2022',
-            werktijd: 'fulltime',
-            uren: '40',
-        },
-    });
-    
+    // const [step, setStep] = useState(1);
+    // const [data, setData] = useState({
+    //     gegevens: '',
+    //     field: '',
+    //     idNumber: '',
+    //     mockPersonData: {
+    //         voornaam: 'Jan',
+    //         achternaam: 'Jansen',
+    //         personeelnr: '21080887',
+    //         datumUitDienst: '15-05-2022',
+    //         werktijd: 'fulltime',
+    //         uren: '40',
+    //     },
+    // });
+
     const [isChatOpen, setIsChatOpen] = useState(true);
 
     const [option, setOption] = useState('')
     const [arrayNumber, setArayNumber] = useState(-1)
-    
-    const [dataToevoeg, setDataToevoeg] = useState({})
-    const [dataAanpassen, setDataAanpassen] = useState({})
-    const [dataVerwijderen, setDataVerwijderen] = useState({})
+
+    // const [dataToevoeg, setDataToevoeg] = useState({})
+    // const [dataAanpassen, setDataAanpassen] = useState({})
+    // const [dataVerwijderen, setDataVerwijderen] = useState({})
 
     const [convoEnded, setConvoEnded] = useState(undefined)
     const Toevoegenscript = [
@@ -78,7 +80,7 @@ const AIChatBoxV2 = () => {
         },
         {
             from: 'bot',
-            message: `Zijn de volgende gevgeens correct? Ja of Nee \n gegevens:
+            message: `Zijn de volgende gegevens correct? Ja of Nee \n gegevens:
                     \nVoornaam: ${dataToevoeg?.voornaam}
                     \nAchternaam: ${dataToevoeg?.achternaam}
                     \nPersoneelnummer: ${dataToevoeg?.personeelnr}
@@ -113,7 +115,8 @@ const AIChatBoxV2 = () => {
             field: 'End',
             type: 'text',
         },
-        {from: 'bot',
+        {
+            from: 'bot',
             message: `Is dit de juiste persoon? 
                      Ja of Nee \n\n gegevens:
                     Voornaam: ${dataAanpassen?.voornaam}
@@ -124,7 +127,8 @@ const AIChatBoxV2 = () => {
                     \nUren: ${dataAanpassen?.uren}`,
 
             field: 'EndEnd',
-            type: 'text'}
+            type: 'text'
+        }
 
 
     ]
@@ -160,25 +164,25 @@ const AIChatBoxV2 = () => {
                 setConversation((prev) => [...prev, { from: 'You', message: value }]);
                 setDataToevoeg((prev) => ({ ...prev, [Toevoegenscript[arrayNumber].field]: value }))
                 setArayNumber(arrayNumber + 1)
-                
+
             }
 
             else {
-                if(value.includes('Ja')){
+                if (value.includes('Ja')) {
                     setConvoEnded(true)
                     // Add data to the list
                     console.log('convo is ended')
-                    
+
                 }
 
-                else if(value.includes('Nee')){
+                else if (value.includes('Nee')) {
                     setConvoEnded(false)
                     console.log('Convo not ended')
                 }
 
-                else{
+                else {
                     setConversation((prev) => [...prev, { from: 'bot', message: Toevoegenscript[arrayNumber].message }])
-                    
+
                 }
             }
         }
@@ -187,31 +191,31 @@ const AIChatBoxV2 = () => {
         if (option === 'Aanpassen') {
             if (!(Aanpassenscript[arrayNumber].field === 'End')) {
                 setConversation((prev) => [...prev, { from: 'You', message: value }]);
-                
-                const isFound = personArray.find((r,i) =>{
-                    if(r.personeelnr === value){
+
+                const isFound = personArray.find((r, i) => {
+                    if (r.personeelnr === value) {
                         return true
                     }
 
                     return false
                 })
 
-                if(isFound){
-                setArayNumber(arrayNumber + 1)
-                console.log(isFound)
-                setDataAanpassen(isFound)
+                if (isFound) {
+                    setArayNumber(arrayNumber + 1)
+                    console.log(isFound)
+                    setDataAanpassen(isFound)
 
                 }
 
-                else{
+                else {
                     setConversation((prev) => [...prev, { from: 'bot', message: 'Er bestaat geen persoon met die nummer, probeer nog een keer.' }])
                 }
             }
 
             else {
-                if(value.includes('Ja')){
-                    if(Aanpassenscript[arrayNumber].field === 'EndEnd'){
-                        if(value.includes('Ja')){
+                if (value.includes('Ja')) {
+                    if (Aanpassenscript[arrayNumber].field === 'EndEnd') {
+                        if (value.includes('Ja')) {
                             setConvoEnded(true)
                             console.log('convo is ended')
 
@@ -222,18 +226,18 @@ const AIChatBoxV2 = () => {
                     setArayNumber(arrayNumber + 1)
                     // Add data to the list
                     console.log('convo is ended')
-                    
+
                 }
 
-                else if(value.includes('Nee')){
+                else if (value.includes('Nee')) {
                     // setConvoEnded(false)
                     console.log('Convo not ended')
-                    setArayNumber(0)    
+                    setArayNumber(0)
 
                 }
 
-                else{
-                    setConversation((prev) => [...prev, { from: 'bot', message: Aanpassenscript[arrayNumber].message }])                    
+                else {
+                    setConversation((prev) => [...prev, { from: 'bot', message: Aanpassenscript[arrayNumber].message }])
                 }
             }
         }
@@ -243,42 +247,42 @@ const AIChatBoxV2 = () => {
     };
 
     const handleChange = (e) => setValue(e.target.value);
-    
-    function handleEditChange(e, field, content){
 
-        if(option === 'Toevoegen'){
-        if(e.target.value === ''){
-            setDataToevoeg((prev) => ({...prev, [field]: content}))
+    function handleEditChange(e, field, content) {
+
+        if (option === 'Toevoegen') {
+            if (e.target.value === '') {
+                setDataToevoeg((prev) => ({ ...prev, [field]: content }))
+            }
+
+            setDataToevoeg((prev) => ({ ...prev, [field]: e.target.value }))
         }
 
-        setDataToevoeg((prev) => ({...prev, [field]: e.target.value}))
-    }
+        if (option === 'Aanpassen') {
+            if (e.target.value === '') {
+                setDataAanpassen((prev) => ({ ...prev, [field]: content }))
+            }
 
-    if(option === 'Aanpassen'){
-        if(e.target.value === ''){
-            setDataAanpassen((prev) => ({...prev, [field]: content}))
+            setDataAanpassen((prev) => ({ ...prev, [field]: e.target.value }))
         }
 
-        setDataAanpassen((prev) => ({...prev, [field]: e.target.value}))
-    }
+        if (option === 'Verwijderen') {
+            if (e.target.value === '') {
+                setDataVerwijderen((prev) => ({ ...prev, [field]: content }))
+            }
 
-    if(option === 'Verwijderen'){
-        if(e.target.value === ''){
-            setDataVerwijderen((prev) => ({...prev, [field]: content}))
+            setDataVerwijderen((prev) => ({ ...prev, [field]: e.target.value }))
         }
-
-        setDataVerwijderen((prev) => ({...prev, [field]: e.target.value}))
-    }
     }
 
 
     useEffect(() => {
-        if( !(option === '')){
+        if (!(option === '')) {
             if (option === 'Toevoegen') {
                 setConversation((prev) => [...prev, { from: 'bot', message: Toevoegenscript[arrayNumber]?.message }])
                 return
             }
-            
+
             if (option === 'Aanpassen') {
                 setConversation((prev) => [...prev, { from: 'bot', message: Aanpassenscript[arrayNumber]?.message }])
                 return
@@ -288,7 +292,7 @@ const AIChatBoxV2 = () => {
 
 
 
-    function regenerate(){
+    function regenerate() {
         setConversation(null)
         setArayNumber(-1)
         setDataToevoeg({})
@@ -345,7 +349,6 @@ const AIChatBoxV2 = () => {
                             </button>}
 
 
-
                             {/* This is the Verwijderen option */}
                             {option === '' && <button disabled={option != ''} onClick={() => {
                                 setOption('Verwijderen'),
@@ -356,9 +359,6 @@ const AIChatBoxV2 = () => {
                                     Ik wil gegevens verwijderen
                                 </div>
                             </button>}
-
-
-
 
                             {/*-------------- Chat history ---------------*/}
                             {conversation && conversation?.map((chat, index) => (
@@ -377,63 +377,59 @@ const AIChatBoxV2 = () => {
                             ))}
                         </div>
 
-                    </div> : convoEnded === true ? 
-                    <div className='w-32 my-auto mx-auto'>
-                        <CheckMarkSVG/>
-                    </div> 
+                    </div> : convoEnded === true ?
+                        <div className='w-32 my-auto mx-auto'>
+                            <SVGCheckmark />
+                        </div>
 
-                    : 
+                        :
 
-                    <div className="mt-4 mx-10 flex bg-white rounded-xl h-[100%] overflow-auto flex-col gap-2">
+                        <div className="mt-4 mx-10 flex bg-white rounded-xl h-[100%] overflow-auto flex-col gap-2">
 
-                        Typ {`'Ja'`} om je wijzigingen te bevestigen.
-                        {Object.keys(option === 'Toevoegen' ? dataToevoeg : option === 'Aanpassen' ? dataAanpassen : dataVerwijderen).map((row, i) =>
+                            Type {`'Ja'`} om je wijzigingen te bevestigen.
+                            {Object.keys(option === 'Toevoegen' ? dataToevoeg : option === 'Aanpassen' ? dataAanpassen : dataVerwijderen).map((row, i) =>
                             (
                                 <div className='flex flex-col' key={i}>
                                     <label className='font-bold'>
                                         {row}
                                     </label>
 
-                                    <input type={Toevoegenscript[i].type} onChange={(e) =>{handleEditChange(e, row, option === 'Toevoegen' ? dataToevoeg[row] : option === 'Aanpassen' ? dataAanpassen[row] : dataVerwijderen[row])}} placeholder={option === 'Toevoegen' ? dataToevoeg[row] : option === 'Aanpassen' ? dataAanpassen[row] : dataVerwijderen[row]}/>
+                                    <input type={Toevoegenscript[i].type} onChange={(e) => { handleEditChange(e, row, option === 'Toevoegen' ? dataToevoeg[row] : option === 'Aanpassen' ? dataAanpassen[row] : dataVerwijderen[row]) }} placeholder={option === 'Toevoegen' ? dataToevoeg[row] : option === 'Aanpassen' ? dataAanpassen[row] : dataVerwijderen[row]} />
                                 </div>
 
                             )
-                            
-                        )}
-                    </div> 
-                }
 
-
-
-
+                            )}
+                        </div>
+                    }
 
                     {/*--------------- Input field and send button ----------------*/}
                     {convoEnded === undefined || convoEnded === false ?
-                    <form onSubmit={(e) => { e.preventDefault() }} className="flex flex-row items-center px-4 pb-4 mt-auto">
-                        <input disabled={option === ''}
-                            type={option === 'Toevoegen' ? Toevoegenscript[arrayNumber]?.type : option === 'Aanpassen' ? '' : option === 'Verwijderen' && ''}
-                            value={value}
-                            onChange={handleChange}
-                            className="flex-grow p-2 border border-gray-300 rounded-md"
-                            placeholder="Type hier..."
-                        />
+                        <form onSubmit={(e) => { e.preventDefault() }} className="flex flex-row items-center px-4 pb-4 mt-auto">
+                            <input disabled={option === ''}
+                                type={option === 'Toevoegen' ? Toevoegenscript[arrayNumber]?.type : option === 'Aanpassen' ? '' : option === 'Verwijderen' && ''}
+                                value={value}
+                                onChange={handleChange}
+                                className="flex-grow p-2 border border-gray-300 rounded-md"
+                                placeholder="Type hier..."
+                            />
 
-                        <button
-                            onClick={(e) => handleSubmit(e)} className="ml-2">
-                            <SVGSendArrow />
+                            <button
+                                onClick={(e) => handleSubmit(e)} className="ml-2">
+                                <SVGSendArrow />
+                            </button>
+                        </form> :
+
+                        <button onClick={() => { regenerate() }} className="flex flex-row items-center justify-center font-bold bg-slate-500 rounded-xl px-4 m-3 p-4 mt-auto">
+                            regenerate
                         </button>
-                    </form>:
 
-<button onClick={() => {regenerate()}} className="flex flex-row items-center justify-center font-bold bg-slate-500 rounded-xl px-4 m-3 p-4 mt-auto">
-                        regenerate
-</button>
 
-                    
-                }
+                    }
                 </div>
             ) :
                 (
-                    <div className="cursor-pointer mx-[45%] my-[23%]" onClick={() => setIsChatOpen(true)}>
+                    <div className="cursor-pointer mx-[4%] my-[33%]" onClick={() => setIsChatOpen(true)}>
                         <Image src={chatbotIcon} alt="Open Chat" />
                     </div>
                 )}
@@ -443,14 +439,14 @@ const AIChatBoxV2 = () => {
 
 export default AIChatBoxV2;
 
-const CheckMarkSVG = () =>{
-    return(
-        <svg  viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M8 1C6.61553 1 5.26216 1.41054 4.11101 2.17971C2.95987 2.94888 2.06266 4.04213 1.53285 5.32122C1.00303 6.6003 0.86441 8.00777 1.13451 9.36563C1.4046 10.7235 2.07129 11.9708 3.05026 12.9497C4.02922 13.9287 5.2765 14.5954 6.63437 14.8655C7.99224 15.1356 9.3997 14.997 10.6788 14.4672C11.9579 13.9373 13.0511 13.0401 13.8203 11.889C14.5895 10.7378 15 9.38447 15 8C15 6.14348 14.2625 4.36301 12.9497 3.05025C11.637 1.7375 9.85652 1 8 1ZM7 10.795L4.5 8.295L5.295 7.5L7 9.205L10.705 5.5L11.503 6.293L7 10.795Z" fill="black"/>
-</svg>
+// const CheckMarkSVG = () => {
+//     return (
+//         <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+//             <path d="M8 1C6.61553 1 5.26216 1.41054 4.11101 2.17971C2.95987 2.94888 2.06266 4.04213 1.53285 5.32122C1.00303 6.6003 0.86441 8.00777 1.13451 9.36563C1.4046 10.7235 2.07129 11.9708 3.05026 12.9497C4.02922 13.9287 5.2765 14.5954 6.63437 14.8655C7.99224 15.1356 9.3997 14.997 10.6788 14.4672C11.9579 13.9373 13.0511 13.0401 13.8203 11.889C14.5895 10.7378 15 9.38447 15 8C15 6.14348 14.2625 4.36301 12.9497 3.05025C11.637 1.7375 9.85652 1 8 1ZM7 10.795L4.5 8.295L5.295 7.5L7 9.205L10.705 5.5L11.503 6.293L7 10.795Z" fill="black" />
+//         </svg>
 
-    )
-}
+//     )
+// }
 
 
 // if (step === 1) {
