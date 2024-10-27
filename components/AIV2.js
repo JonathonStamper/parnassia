@@ -56,6 +56,12 @@ const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpas
         },
         {
             from: 'bot',
+            message: 'Wat is hun persoonlijke nummer?',
+            field: 'personeelnr',
+            type: 'number'
+        },
+        {
+            from: 'bot',
             message: 'Wat voor soort werktijd heeft deze persoon? (Parttime of Voltijd)',
             field: 'werktijd',
             type: 'text'
@@ -71,12 +77,6 @@ const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpas
             message: 'Wanneer zou hun datum uit dienst zijn?',
             field: 'datumUitDienst',
             type: 'date'
-        },
-        {
-            from: 'bot',
-            message: 'Wat is hun persoonlijke nummer?',
-            field: 'personeelnr',
-            type: 'number'
         },
         {
             from: 'bot',
