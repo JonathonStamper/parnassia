@@ -26,6 +26,10 @@ const AIChatBox = () => {
     },
   });
 
+  const personArray = [
+    
+  ]
+
   const handleSubmit = (e) => {
     e.preventDefault()
     if (!value.trim()) return;
