@@ -5,7 +5,6 @@ const Table = ({ dataToevoeg, dataAanpassen, dataVerwijderen, setDataToevoeg, se
 
     const [rows, setRows] = useState([]);
 
-     // Ensure that dataToevoeg is not null or undefined before adding it to rows
      useEffect(() => {
         if (dataToevoeg && Object.keys(dataToevoeg).length > 0) {
             setRows([...rows, dataToevoeg]);
@@ -13,7 +12,6 @@ const Table = ({ dataToevoeg, dataAanpassen, dataVerwijderen, setDataToevoeg, se
         }
     }, [dataToevoeg, rows, setDataToevoeg]);
 
-    // Handle row removal based on `dataVerwijderen`
     useEffect(() => {
         if (dataVerwijderen && Object.keys(dataVerwijderen).length > 0) {
             const updatedRows = rows.filter(row => row.personeelnr !== dataVerwijderen.personeelnr);
@@ -26,7 +24,7 @@ const Table = ({ dataToevoeg, dataAanpassen, dataVerwijderen, setDataToevoeg, se
         <div>
             <h2>Table Data</h2>
             <table className="w-full bg-[#E7EBEF] text-black border-2 border-gray-300">
-                <thead>
+                <thead className='border-r-2 border-black'>
                     <tr>
                         {headings.map((head, headID) => (
                             <th key={headID}>{head}</th>
