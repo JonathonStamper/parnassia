@@ -52,12 +52,12 @@ const Table = ({ dataToevoeg, dataAanpassen, dataVerwijderen, setDataToevoeg, se
 const TableRow = ({ row }) => {
     return (
         <tr className='border-y-2 border-black'>
-            <td className=''>{row.voornaam}</td>
-            <td>{row.achternaam}</td>
-            <td>{row.personeelnr}</td>
-            <td>{row.werktijd}</td>
-            <td>{row.uren}</td>
-            <td>{row.datumUitDienst}</td>
+            <td className=' border-r-2 border-black'>{row.voornaam}</td>
+            <td className=' border-r-2 border-black'>{row.achternaam}</td>
+            <td className=' border-r-2 border-black'>{row.personeelnr}</td>
+            <td className=' border-r-2 border-black'>{row.werktijd}</td>
+            <td className=' border-r-2 border-black'>{row.uren}</td>
+            <td className=' border-r-2 border-black'>{row.datumUitDienst}</td>
         </tr>
     );
 };
