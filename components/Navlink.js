@@ -5,7 +5,7 @@ import React from 'react'
 export default function Navlink({children, linkName, link}) {
   const router = useRouter()
 
-  console.log(router.asPath)
+  // console.log(router.asPath)
     // const [isHovered, setIsHovered] = useState()
 
   return (

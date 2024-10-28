@@ -4,3 +4,4 @@ export * from "./Questionmark";
 export * from './Checkmark';
 export * from './Folder';
 export * from './Clock'
+export * from './Chatbot';

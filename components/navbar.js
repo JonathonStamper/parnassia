@@ -4,6 +4,7 @@ import Navlink from './Navlink'
 import SVGQuestionmark from '../icons/Questionmark'
 import SVGFolder from '@/icons/Folder'
 import SVGClock from '@/icons/Clock'
+import SVGBot from '@/icons/Chatbot'
 
 export default function Navbar({children}) {
 
@@ -20,7 +21,7 @@ export default function Navbar({children}) {
 
         {link: 'chatbot',
             linkName: 'Chatbot',
-            children: <HomeIcon/>
+            children: <SVGBot/>
         },
         
         {link: 'recent',
