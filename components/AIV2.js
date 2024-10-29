@@ -8,36 +8,13 @@ import SVGCheckmark from '@/icons/Checkmark';
 import chatbotIcon from '../public/images/chatbotIcon.png';
 import Table from './Table';
 
-const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpassen, dataVerwijderen, setDataVerwijderen }) => {
+const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpassen, dataVerwijderen, setDataVerwijderen, personArray, setPersonArray}) => {
 
-    const [conversation, setConversation] = useState([
-        // { from: 'bot', message: '</br> Hallo! Ik ben Bob, uw digitale hulp voor het rekenmodel. Hoe kan ik u helpen? ' },
-
-    ]);
+    const [conversation, setConversation] = useState([]);
     const [value, setValue] = useState('');
-    // const [step, setStep] = useState(1);
-    // const [data, setData] = useState({
-    //     gegevens: '',
-    //     field: '',
-    //     idNumber: '',
-    //     mockPersonData: {
-    //         voornaam: 'Jan',
-    //         achternaam: 'Jansen',
-    //         personeelnr: '21080887',
-    //         datumUitDienst: '15-05-2022',
-    //         werktijd: 'fulltime',
-    //         uren: '40',
-    //     },
-    // });
-
-    const [isChatOpen, setIsChatOpen] = useState(true);
-
+    const [isChatOpen, setIsChatOpen] = useState(false);
     const [option, setOption] = useState('')
     const [arrayNumber, setArayNumber] = useState(-1)
-
-    // const [dataToevoeg, setDataToevoeg] = useState({})
-    // const [dataAanpassen, setDataAanpassen] = useState({})
-    // const [dataVerwijderen, setDataVerwijderen] = useState({})
 
     const [convoEnded, setConvoEnded] = useState(undefined)
     const Toevoegenscript = [
@@ -84,11 +61,24 @@ const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpas
                     \nVoornaam: ${dataToevoeg?.voornaam}
                     \nAchternaam: ${dataToevoeg?.achternaam}
                     \nPersoneelnummer: ${dataToevoeg?.personeelnr}
-                    \nDatum uit dienst: ${dataToevoeg?.datumUitDienst}
                     \nParttime/fulltime: ${dataToevoeg?.werktijd}
-                    \nUren: ${dataToevoeg?.uren}`,
+                    \enUrn: ${dataToevoeg?.uren}
+                    \nDatum uit dienst: ${dataToevoeg?.datumUitDienst}`,
 
             field: 'End',
+            type: 'text'
+        }, 
+        {
+            from: 'bot',
+            message: `Zijn de volgende gegevens correct? Ja of Nee \n gegevens:
+                    \nVoornaam: ${dataToevoeg?.voornaam}
+                    \nAchternaam: ${dataToevoeg?.achternaam}
+                    \nPersoneelnummer: ${dataToevoeg?.personeelnr}
+                    \nParttime/fulltime: ${dataToevoeg?.werktijd}
+                    \enUrn: ${dataToevoeg?.uren}
+                    \nDatum uit dienst: ${dataToevoeg?.datumUitDienst}`,
+
+            field: 'EndEnd',
             type: 'text'
         }
     ]
@@ -105,12 +95,12 @@ const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpas
             from: 'bot',
             message: `Is dit de juiste persoon? 
                      Ja of Nee \n\n gegevens:
-                    Voornaam: ${dataAanpassen?.voornaam}
+                    \nVoornaam: ${dataAanpassen?.voornaam}
                     \nAchternaam: ${dataAanpassen?.achternaam}
                     \nPersoneelnummer: ${dataAanpassen?.personeelnr}
-                    \nDatum uit dienst: ${dataAanpassen?.datumUitDienst}
                     \nParttime/fulltime: ${dataAanpassen?.werktijd}
-                    \nUren: ${dataAanpassen?.uren}`,
+                    \enUrn: ${dataAanpassen?.uren}
+                    \nDatum uit dienst: ${dataAanpassen?.datumUitDienst}`,
 
             field: 'End',
             type: 'text',
@@ -133,26 +123,45 @@ const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpas
 
     ]
 
-
-    const personArray = [
+    const Verwijderenscript = [
         {
-            voornaam: 'Jan',
-            achternaam: 'Jansen',
-            personeelnr: '21080887',
-            datumUitDienst: '15-05-2022',
-            werktijd: 'fulltime',
-            uren: '40',
+            from: 'bot',
+            message: 'Wat is het personeelsnummer van de persoon die je wilt verwijderen?',
+            field: 'personeelnr',
+            type: 'number'
         },
 
         {
-            voornaam: 'Jan',
-            achternaam: 'Jansen',
-            personeelnr: '21036233',
-            datumUitDienst: '15-05-2022',
-            werktijd: 'fulltime',
-            uren: '40',
+            from: 'bot',
+            message: `Is dit de juiste persoon? 
+                     Ja of Nee \n\n gegevens:
+                    \nVoornaam: ${dataAanpassen?.voornaam}
+                    \nAchternaam: ${dataAanpassen?.achternaam}
+                    \nPersoneelnummer: ${dataAanpassen?.personeelnr}
+                    \nParttime/fulltime: ${dataAanpassen?.werktijd}
+                    \nUren: ${dataAanpassen?.uren}
+                    \nDatum uit dienst: ${dataAanpassen?.datumUitDienst}`,
+
+            field: 'End',
+            type: 'text',
+        },
+        {
+            from: 'bot',
+            message: `Weet je zeker dat je deze gebruiker wilt verwijderen?`,
+
+            field: 'EndEnd',
+            type: 'text'
         }
+
+
     ]
+
+    const [currentList, setCurrentList] = useState([])
+
+
+
+
+   
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -170,10 +179,9 @@ const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpas
             else {
                 if (value.includes('Ja')) {
                     setConvoEnded(true)
-                    // Add data to the list
                     console.log('convo is ended')
-
-                }
+                    setPersonArray((prev) => [...prev, dataToevoeg])
+                }   
 
                 else if (value.includes('Nee')) {
                     setConvoEnded(false)
@@ -185,11 +193,74 @@ const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpas
 
                 }
             }
+
+            
         }
 
 
         if (option === 'Aanpassen') {
+
             if (!(Aanpassenscript[arrayNumber].field === 'End')) {
+                setConversation((prev) => [...prev, { from: 'You', message: value }]);
+
+                const isFound = personArray.find((r, i) => {
+                    if (r.personeelnr === value) {
+                        return true
+                    }  
+
+
+
+                    return false
+                })
+
+                if (isFound) {
+                    setArayNumber(arrayNumber + 1)                   
+                    const filtered = personArray.filter((r, i) =>  (r.personeelnr != isFound.personeelnr))
+                    
+                    setCurrentList(filtered)
+
+                    console.log(currentList)
+                    setDataAanpassen(isFound)
+
+                }
+
+                else {
+                    setConversation((prev) => [...prev, { from: 'bot', message: 'Er bestaat geen persoon met die nummer, probeer nog een keer.' }])
+                }
+            }
+
+            if(Aanpassenscript[arrayNumber].field === 'End'){
+                if (value.includes('Ja')) {
+                    setConvoEnded(false)
+                    setArayNumber(arrayNumber + 1)
+                    
+                    // Add data to the list
+                }
+
+                else if (value.includes('Nee')) {
+                    // setConvoEnded(false)
+                    setArayNumber(0)
+
+                }
+
+                else {
+                    setConversation((prev) => [...prev, { from: 'bot', message: Aanpassenscript[arrayNumber].message }])
+                }
+            }
+
+            if (Aanpassenscript[arrayNumber].field === 'EndEnd') {
+                if (value === 'Ja') {
+                    console.log(currentList)
+
+                    setCurrentList((prev) => [...prev, dataAanpassen]); // Add data back
+                    setPersonArray((prev) => [...currentList, dataAanpassen]);
+                    setConvoEnded(true)
+                }
+            }
+        }
+
+        if (option === 'Verwijderen') {
+            if (!(Verwijderenscript[arrayNumber].field === 'End')) {
                 setConversation((prev) => [...prev, { from: 'You', message: value }]);
 
                 const isFound = personArray.find((r, i) => {
@@ -202,6 +273,13 @@ const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpas
 
                 if (isFound) {
                     setArayNumber(arrayNumber + 1)
+
+                    const filtered = personArray.filter((r, i) =>  (r.personeelnr != isFound.personeelnr))
+                    
+                    setCurrentList(filtered)
+
+                    console.log(currentList)
+                    setDataAanpassen(isFound)
                     console.log(isFound)
                     setDataAanpassen(isFound)
 
@@ -212,26 +290,33 @@ const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpas
                 }
             }
 
-            else {
+            if(Verwijderenscript[arrayNumber].field === 'End'){
                 if (value.includes('Ja')) {
-                    if (Aanpassenscript[arrayNumber].field === 'EndEnd') {
-                        if (value.includes('Ja')) {
-                            setConvoEnded(true)
-                            console.log('convo is ended')
-
-                            return
-                        }
-                    }
-                    setConvoEnded(false)
                     setArayNumber(arrayNumber + 1)
                     // Add data to the list
-                    console.log('convo is ended')
-
                 }
 
                 else if (value.includes('Nee')) {
                     // setConvoEnded(false)
-                    console.log('Convo not ended')
+                    setArayNumber(0)
+                    
+
+                }
+
+                else {
+                    setConversation((prev) => [...prev, { from: 'bot', message: Aanpassenscript[arrayNumber].message }])
+                }
+            }
+
+            if(Verwijderenscript[arrayNumber].field === 'EndEnd'){
+                if (value.includes('Ja')) {
+                    setPersonArray(currentList)
+                    setConvoEnded(true)
+                    // Add data to the list
+                }
+
+                else if (value.includes('Nee')) {
+                    // setConvoEnded(false)
                     setArayNumber(0)
 
                 }
@@ -240,11 +325,16 @@ const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpas
                     setConversation((prev) => [...prev, { from: 'bot', message: Aanpassenscript[arrayNumber].message }])
                 }
             }
-        }
 
+        }
 
         setValue('');
     };
+
+    console.log(currentList)
+
+
+    
 
     const handleChange = (e) => setValue(e.target.value);
 
@@ -276,6 +366,7 @@ const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpas
     }
 
 
+
     useEffect(() => {
         if (!(option === '')) {
             if (option === 'Toevoegen') {
@@ -285,6 +376,11 @@ const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpas
 
             if (option === 'Aanpassen') {
                 setConversation((prev) => [...prev, { from: 'bot', message: Aanpassenscript[arrayNumber]?.message }])
+                return
+            }
+
+            if (option === 'Verwijderen') {
+                setConversation((prev) => [...prev, { from: 'bot', message: Verwijderenscript[arrayNumber]?.message }])
                 return
             }
         }
@@ -300,20 +396,22 @@ const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpas
         setDataVerwijderen({})
         setConvoEnded(undefined)
         setOption('')
+        setCurrentList([])
     }
 
 
-    console.log('Test', dataToevoeg)
 
     return (
         <>
             {isChatOpen ? (
-                <div className="mx-[30%] mt-20 w-[478px] h-[523px] border-2 border-[#DEDEDE] rounded-xl flex flex-col  text-black">
+                <div className="mx-[30%] mt-20 w-[478px] h-[523px] border-2 border-[#DEDEDE] rounded-xl flex flex-col absolute z-20 top-[5%] bg-white text-black">
                     <div className="flex flex-row mx-5 border-b-2 py-4">
                         <h3 className="mr-2.5">Bob the bot</h3>
                         <Image src={bot} alt="Bot" width={30} height={30} />
-                        <div className='ml-64' onClick={() => setIsChatOpen(false)}><SVGCloseX /></div>
+                        <button className='ml-64' onClick={() => {setIsChatOpen(false), regenerate()}}><SVGCloseX /></button>
                     </div>
+
+                    {/* <div className='bg-slate-300 opacity- h-screen w-screen absolute z-0 top-0' ></div> */}
 
                     {/*-------------- User choice ---------------*/}
                     {convoEnded === undefined ? <div className="mt-7 mx-10 flex  h-[100%] overflow-auto ">
@@ -328,7 +426,7 @@ const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpas
                             {/* This is the toevoeg option */}
                             {option === '' && <button disabled={option != ''} onClick={() => {
                                 setOption('Toevoegen'),
-                                    setConversation([{ from: 'You', message: 'Ik wil gegevens toevoegen' }]), setArayNumber(arrayNumber + 1)
+                                setConversation((prev) => [...(prev || []), { from: 'You', message: 'Ik wil gegevens Toevoegen' }]), setArayNumber(arrayNumber + 1)
                             }} className={`mb-2 p-4 text-left rounded-md w-full font-bold ${option === 'Toevoegen' ? 'bg-[#abffad]' : 'bg-gray-100'}`}>
                                 {'Option 1'}:
                                 <div className='font-normal'>
@@ -340,7 +438,7 @@ const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpas
                             {/* This is the Aanpassen option */}
                             {option === '' && <button disabled={option != ''} onClick={() => {
                                 setOption('Aanpassen'),
-                                    setConversation((prev) => [...prev, { from: 'You', message: 'Ik wil gegevens aanpassen' }]), setArayNumber(arrayNumber + 1)
+                                setConversation((prev) => [...(prev || []), { from: 'You', message: 'Ik wil gegevens aanpassen' }]), setArayNumber(arrayNumber + 1)
                             }} className={`mb-2 p-4 text-left rounded-md w-full font-bold ${option === 'Aanpassen' ? 'bg-[#abffad]' : 'bg-gray-100'}`}>
                                 {'Option 2'}:
                                 <div className='font-normal'>
@@ -352,8 +450,9 @@ const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpas
                             {/* This is the Verwijderen option */}
                             {option === '' && <button disabled={option != ''} onClick={() => {
                                 setOption('Verwijderen'),
-                                    setConversation([{ from: 'You', message: ' Ik wil gegevens Verwijderen' }]), setArayNumber(arrayNumber + 1)
-                            }} className={`mb-2 p-4 text-left rounded-md w-full font-bold ${option === 'Verwijderen' ? 'bg-[#abffad]' : 'bg-gray-100'}`}>
+                                setConversation((prev) => [...(prev || []), { from: 'You', message: 'Ik wil gegevens aanpassen' }]), setArayNumber(arrayNumber + 1)
+                            }} 
+                            className={`mb-2 p-4 text-left rounded-md w-full font-bold ${option === 'Verwijderen' ? 'bg-[#abffad]' : 'bg-gray-100'}`}>
                                 {'Option 3'}:
                                 <div className='font-normal'>
                                     Ik wil gegevens verwijderen
@@ -383,7 +482,8 @@ const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpas
                         </div>
 
                         :
-
+                        
+                        convoEnded === false &&
                         <div className="mt-4 mx-10 flex bg-white rounded-xl h-[100%] overflow-auto flex-col gap-2">
 
                             Type {`'Ja'`} om je wijzigingen te bevestigen.
@@ -407,7 +507,7 @@ const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpas
                     {convoEnded === undefined || convoEnded === false ?
                         <form onSubmit={(e) => { e.preventDefault() }} className="flex flex-row items-center px-4 pb-4 mt-auto">
                             <input disabled={option === ''}
-                                type={option === 'Toevoegen' ? Toevoegenscript[arrayNumber]?.type : option === 'Aanpassen' ? '' : option === 'Verwijderen' && ''}
+                                type={option === 'Toevoegen' ? Toevoegenscript[arrayNumber]?.type : option === 'Aanpassen' ? Aanpassenscript[arrayNumber]?.type : option === 'Verwijderen' && Verwijderenscript[arrayNumber]?.type}
                                 value={value}
                                 onChange={handleChange}
                                 className="flex-grow p-2 border border-gray-300 rounded-md"
@@ -429,7 +529,7 @@ const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpas
                 </div>
             ) :
                 (
-                    <div className="cursor-pointer mx-[4%] my-[33%]" onClick={() => setIsChatOpen(true)}>
+                    <div className="cursor-pointer absolute top-2 right-2" onClick={() => setIsChatOpen(true)}>
                         <Image src={chatbotIcon} alt="Open Chat" />
                     </div>
                 )}
@@ -570,4 +670,28 @@ export default AIChatBoxV2;
 //         setStep(1); // Reset after deletion
 //     }
 // }
+
+
+
+
+ // const [step, setStep] = useState(1);
+    // const [data, setData] = useState({
+    //     gegevens: '',
+    //     field: '',
+    //     idNumber: '',
+    //     mockPersonData: {
+    //         voornaam: 'Jan',
+    //         achternaam: 'Jansen',
+    //         personeelnr: '21080887',
+    //         datumUitDienst: '15-05-2022',
+    //         werktijd: 'fulltime',
+    //         uren: '40',
+    //     },
+    // });
+
+    
+    // const [dataToevoeg, setDataToevoeg] = useState({})
+    // const [dataAanpassen, setDataAanpassen] = useState({})
+    // const [dataVerwijderen, setDataVerwijderen] = useState({})
+
 

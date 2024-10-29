@@ -36,7 +36,7 @@ export default function Navbar({children}) {
     ]
 
   return (
-    <main className='bg-[#0036A0] h-screen w-screen absolute flex top-0 gap-4 justify-between items-center pl-0 p-6'>
+    <main className='bg-[#0036A0] overflow-hidden h-screen w-screen absolute flex top-0 gap-4 justify-between items-center pl-0 p-6'>
         <nav className=' h-full w-1/6 flex flex-col items-center mr- gap-10 m item '>
         <div className='mr-10'>
 
@@ -50,7 +50,7 @@ export default function Navbar({children}) {
 
         </nav>
 
-        <section className=' w-5/6 rounded-xl bg-white h-full '>
+        <section className='relative w-5/6 rounded-xl bg-white h-full overflow-hidden'>
             {children}
         </section>
 
