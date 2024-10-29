@@ -62,7 +62,7 @@ const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpas
                     \nAchternaam: ${dataToevoeg?.achternaam}
                     \nPersoneelnummer: ${dataToevoeg?.personeelnr}
                     \nParttime/fulltime: ${dataToevoeg?.werktijd}
-                    \enUrn: ${dataToevoeg?.uren}
+                    \nUren: ${dataToevoeg?.uren}
                     \nDatum uit dienst: ${dataToevoeg?.datumUitDienst}`,
 
             field: 'End',
@@ -99,7 +99,7 @@ const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpas
                     \nAchternaam: ${dataAanpassen?.achternaam}
                     \nPersoneelnummer: ${dataAanpassen?.personeelnr}
                     \nParttime/fulltime: ${dataAanpassen?.werktijd}
-                    \enUrn: ${dataAanpassen?.uren}
+                    \nUren: ${dataAanpassen?.uren}
                     \nDatum uit dienst: ${dataAanpassen?.datumUitDienst}`,
 
             field: 'End',
@@ -428,7 +428,7 @@ const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpas
                                 setOption('Toevoegen'),
                                 setConversation((prev) => [...(prev || []), { from: 'You', message: 'Ik wil gegevens Toevoegen' }]), setArayNumber(arrayNumber + 1)
                             }} className={`mb-2 p-4 text-left rounded-md w-full font-bold ${option === 'Toevoegen' ? 'bg-[#abffad]' : 'bg-gray-100'}`}>
-                                {'Option 1'}:
+                                {'Keuze 1'}:
                                 <div className='font-normal'>
                                     Ik wil gegevens toevoegen
                                 </div>
@@ -440,7 +440,7 @@ const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpas
                                 setOption('Aanpassen'),
                                 setConversation((prev) => [...(prev || []), { from: 'You', message: 'Ik wil gegevens aanpassen' }]), setArayNumber(arrayNumber + 1)
                             }} className={`mb-2 p-4 text-left rounded-md w-full font-bold ${option === 'Aanpassen' ? 'bg-[#abffad]' : 'bg-gray-100'}`}>
-                                {'Option 2'}:
+                                {'Keuze 2'}:
                                 <div className='font-normal'>
                                     Ik wil gegevens aanpassen
                                 </div>
@@ -453,7 +453,7 @@ const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpas
                                 setConversation((prev) => [...(prev || []), { from: 'You', message: 'Ik wil gegevens aanpassen' }]), setArayNumber(arrayNumber + 1)
                             }} 
                             className={`mb-2 p-4 text-left rounded-md w-full font-bold ${option === 'Verwijderen' ? 'bg-[#abffad]' : 'bg-gray-100'}`}>
-                                {'Option 3'}:
+                                {'Keuze 3'}:
                                 <div className='font-normal'>
                                     Ik wil gegevens verwijderen
                                 </div>
