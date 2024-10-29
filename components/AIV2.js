@@ -414,7 +414,7 @@ const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpas
                     {/* <div className='bg-slate-300 opacity- h-screen w-screen absolute z-0 top-0' ></div> */}
 
                     {/*-------------- User choice ---------------*/}
-                    {convoEnded === undefined ? <div className="mt-7 mx-10 flex  h-[100%] overflow-auto ">
+                    {convoEnded === undefined ? <div className="mt-7 mx-10 flex  h-[100%] overflow-y-auto ">
                         <div>
                             <div className={`mb-3 p-4 rounded-md w-full font-bold ${'bg-gray-100'}`}>
                                 {'Chabot: '}
@@ -450,7 +450,7 @@ const AIChatBoxV2 = ({ dataToevoeg, setDataToevoeg, dataAanpassen, setDataAanpas
                             {/* This is the Verwijderen option */}
                             {option === '' && <button disabled={option != ''} onClick={() => {
                                 setOption('Verwijderen'),
-                                setConversation((prev) => [...(prev || []), { from: 'You', message: 'Ik wil gegevens aanpassen' }]), setArayNumber(arrayNumber + 1)
+                                setConversation((prev) => [...(prev || []), { from: 'You', message: 'Ik wil gegevens verwijderen' }]), setArayNumber(arrayNumber + 1)
                             }} 
                             className={`mb-2 p-4 text-left rounded-md w-full font-bold ${option === 'Verwijderen' ? 'bg-[#abffad]' : 'bg-gray-100'}`}>
                                 {'Keuze 3'}:
